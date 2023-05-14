@@ -60,7 +60,7 @@ const resetGame = () => {
 
 <!-- HTML template to display the Tic Tac Toe game and allow players to interact with it -->
 <template>
-  <main class="pt-8 text-center bg-blue-100 min-h-screen">
+  <main class="pt-8 text-center bg-blue-300 bg-opacity-70 min-h-screen">
     <h1 class="mb-8 text-3xl font-bold uppercase">Tic Tac Toe</h1>
     <h3 class="my-4">Player {{ player }}'s turn</h3>
     <div class="flex flex-col items-center mb-8">
@@ -73,7 +73,7 @@ const resetGame = () => {
 					v-for="(cell, y) in row" 
 					:key="y" 
 					@click="makeMove(x, y)" 
-					:class="`border border-black w-24 h-24 bg-gray-200 hover:bg-gray-300 flex items-center justify-center material-icons-outlined text-4xl cursor-pointer ${cell === 'X' ? 'text-pink-500' : 'text-blue-400'}`">
+					:class="`border border-blue-800 w-24 h-24 bg-blue-400 hover:bg-blue-300 flex items-center justify-center material-icons-outlined text-4xl cursor-pointer rounded-lg bg-opacity-50 border border-gray-100 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-300 ${cell === 'X' ? 'text-pink-800' : 'text-blue-800'}`">
 					{{ cell === 'X' ? 'close' : cell === 'O' ? 'circle' : '' }}
 				</div>
 			</div>
@@ -83,7 +83,7 @@ const resetGame = () => {
       <!-- show winner if any -->
 			<h2 v-if="winner" class="text-6xl font-bold mb-8">Player '{{ winner }}' wins!</h2>
       <!-- reset button -->
-			<button @click="resetGame" class="px-4 py-2 bg-pink-500 rounded uppercase font-bold hover:bg-pink-600 duration-300">Reset</button>
+			<button @click="resetGame" class="px-4 py-2 bg-pink-700 text-gray rounded uppercase font-bold hover:bg-pink-600 duration-300">Reset</button>
 		</div>
   </main>
 </template>
