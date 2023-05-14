@@ -1,14 +1,14 @@
 // Import necessary features from the Vue library
 <script setup>
-import {ref, computed} from 'vue';
+import { ref, computed } from "vue";
 
 // Create a reactive reference to track the current player and the game board
-const player = ref('x');
+const player = ref("x");
 const board = ref([
-  ['', '', ''],
-  ['', '', ''],
-  ['', '', '']
-])
+  ["", "", ""],
+  ["", "", ""],
+  ["", "", ""],
+]);
 
 // Helper function to calculate the winner based on the current state of the game board
 const calculateWinner = (squares) => {
@@ -31,31 +31,40 @@ const calculateWinner = (squares) => {
     }
   }
   return null; // If no player has won, return null
-}
+};
 
-// Create a computed reference to track the winner based on the current game board
-const winner = computed(() =>   calculateWinner(board.value.flat()));
+// Create a computed reference to track the winner or draw based on the current game board
+const winner = computed(() => {
+  const flatBoard = board.value.flat();
+  const emptyCells = flatBoard.filter((cell) => cell === "");
+  const winningPlayer = calculateWinner(flatBoard);
+
+  if (emptyCells.length === 0 && !winningPlayer) {
+    return "Draw";
+  } else {
+    return winningPlayer;
+  }
+});
 
 // Function to make a move on the game board
 const makeMove = (x, y) => {
-  if(winner.value) return // If a player has already won, do not allow any more moves
+  if (winner.value) return; // If a player has already won, do not allow any more moves
 
-  if(board.value[x][y] !== '') return // If the selected cell is already occupied, do not allow a move
+  if (board.value[x][y] !== "") return; // If the selected cell is already occupied, do not allow a move
 
   board.value[x][y] = player.value; // Update the game board with the player's symbol
-  player.value = player.value === 'X' ? 'O' : 'X' // Switch to the other player's turn
-}
+  player.value = player.value === "X" ? "O" : "X"; // Switch to the other player's turn
+};
 
 // Function to reset the game board to its initial state
 const resetGame = () => {
   board.value = [
-  ['', '', ''],
-  ['', '', ''],
-  ['', '', '']
-  ]
-  player.value = 'X' // Reset the first player to 'X'
-}
-
+    ["", "", ""],
+    ["", "", ""],
+    ["", "", ""],
+  ];
+  player.value = "X"; // Reset the first player to 'X'
+};
 </script>
 
 <!-- HTML template to display the Tic Tac Toe game and allow players to interact with it -->
@@ -65,29 +74,35 @@ const resetGame = () => {
     <h3 class="my-4">Player {{ player }}'s turn</h3>
     <div class="flex flex-col items-center mb-8">
       <!-- generate the board -->
-      <div 
-				v-for="(row, x) in board" 
-				:key="x"
-				class="flex">
-				<div 
-					v-for="(cell, y) in row" 
-					:key="y" 
-					@click="makeMove(x, y)" 
-					:class="`border border-blue-800 w-24 h-24 bg-blue-400 hover:bg-blue-300 flex items-center justify-center material-icons-outlined text-4xl cursor-pointer rounded-lg bg-opacity-50 border border-gray-100 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-300 ${cell === 'X' ? 'text-pink-800' : 'text-blue-800'}`">
-					{{ cell === 'X' ? 'close' : cell === 'O' ? 'circle' : '' }}
-				</div>
-			</div>
+      <div v-for="(row, x) in board" :key="x" class="flex">
+        <div
+          v-for="(cell, y) in row"
+          :key="y"
+          @click="makeMove(x, y)"
+          :class="`border border-blue-800 w-24 h-24 bg-blue-400 hover:bg-blue-300 flex items-center justify-center material-icons-outlined text-4xl cursor-pointer rounded-lg bg-opacity-50 border border-gray-100 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-300 ${
+            cell === 'X' ? 'text-pink-800' : 'text-blue-800'
+          }`"
+        >
+          {{ cell === "X" ? "close" : cell === "O" ? "circle" : "" }}
+        </div>
+      </div>
     </div>
 
     <div class="text-center">
-      <!-- show winner if any -->
-			<h2 v-if="winner" class="text-6xl font-bold mb-8">Player '{{ winner }}' wins!</h2>
+      <!-- show winner or draw message -->
+      <h2 v-if="winner === 'Draw'" class="text-6xl font-bold mb-8">Draw!</h2>
+      <h2 v-else-if="winner" class="text-6xl font-bold mb-8">
+        Player '{{ winner }}' wins!
+      </h2>
       <!-- reset button -->
-			<button @click="resetGame" class="px-4 py-2 bg-pink-700 text-gray rounded uppercase font-bold hover:bg-pink-600 duration-300">Reset</button>
-		</div>
+      <button
+        @click="resetGame"
+        class="px-4 py-2 bg-pink-700 text-gray rounded uppercase font-bold hover:bg-pink-600 duration-300"
+      >
+        Reset
+      </button>
+    </div>
   </main>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
