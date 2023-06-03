@@ -40,7 +40,7 @@ const winner = computed(() => {
   const winningPlayer = calculateWinner(flatBoard);
 
   if (emptyCells.length === 0 && !winningPlayer) {
-    return "Draw";
+    return "It's Draw";
   } else {
     return winningPlayer;
   }
