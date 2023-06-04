@@ -39,6 +39,11 @@ const calculateWinner = (squares) => {
 
 // Create a computed reference to track the winner or draw based on the current game board
 const winner = computed(() => {
+  /* The flat() method concatenates sub-array elements.
+  const myArr = [[1,2],[3,4],[5,6]];
+  const newArr = myArr.flat();
+` console.log(newArr) // 1,2,3,4,5,6
+  */
   const flatBoard = board.value.flat();
   const emptyCells = flatBoard.filter((cell) => cell === "");
   const winningPlayer = calculateWinner(flatBoard);

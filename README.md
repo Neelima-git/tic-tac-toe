@@ -23,7 +23,7 @@ This project is a web-based implementation of the classic Tic Tac Toe game. Play
 
 To run the project locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/tic-tac-toe.git`
+1. Clone the repository: `git clone https://github.com/Neelima-git/tic-tac-toe.git`
 2. Navigate to the project directory: `cd tic-tac-toe`
 3. Install dependencies: `npm install`
 4. Start the development server: `npm run serve`
