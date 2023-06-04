@@ -14,18 +14,22 @@ const board = ref([
 const calculateWinner = (squares) => {
   // List of all possible winning combinations
   const lines = [
+    //rows
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
+    //cols
     [0, 3, 6],
     [1, 4, 7],
     [2, 5, 8],
+    //diagonals
     [0, 4, 8],
     [2, 4, 6],
   ];
   // Check each winning combination to see if a player has won
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
+    //checks if the player symbol at position a is not null (squares[a]) and if it is equal to the symbols at positions b and c (squares[b] and squares[c]
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a]; // Return the winning player's symbol
     }
