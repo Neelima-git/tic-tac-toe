@@ -1,6 +1,9 @@
-// Import necessary features from the Vue library
 <script setup>
 import { ref, computed } from "vue";
+import io from "socket.io-client";
+
+//Declare a variable which talks with server
+const socket = io("http://localhost:3000");
 
 // Create a reactive reference to track the current player and the game board
 const player = ref("x");
@@ -56,7 +59,12 @@ const winner = computed(() => {
 });
 
 // Function to make a move on the game board
-const makeMove = (x, y) => {
+const makeMove = (x, y, opponentMarked) => {
+  //emit event to send the board position to server
+  if(!opponentMarked){
+    socket.emit("markTile", x, y);
+  }
+
   if (winner.value) return; // If a player has already won, do not allow any more moves
 
   if (board.value[x][y] !== "") return; // If the selected cell is already occupied, do not allow a move
@@ -74,6 +82,11 @@ const resetGame = () => {
   ];
   player.value = "X"; // Reset the first player to 'X'
 };
+
+socket.on("markTile", (x, y) => {
+  console.log("received in vue", x, y);
+  makeMove(x,y, true)
+});
 </script>
 
 <!-- HTML template to display the Tic Tac Toe game and allow players to interact with it -->
